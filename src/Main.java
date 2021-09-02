@@ -1,26 +1,26 @@
 public class Main {
 
-
-
     public static void main(String[] args) {
-        int h = 10;
-        float t = 0;
-        Main.start(h, t);
-    }
 
-    private static void start(int height, float time) {
-        int acceleration = -1;
-        while(true) {
-            System.out.println("Tid: " + time + " Höjd: " + height);
-            checkCollision(height, acceleration);
-            height = height+acceleration;
-        }
-    }
+        double time = 0;
+        double a = -9.82;
+        double v0 = 0;
+        double h0 = 10;
+        double h1 = 0;
+        double v1 = 0;
 
-    private static int checkCollision(int height, int acceleration) {
-        if (height == 0) {
-            acceleration = 1;
+        double delta = 1000/60;
+        long last = System.currentTimeMillis();
+        while (true) {
+            long now = System.currentTimeMillis();
+            if (now - last > delta) {
+                time++;
+                v1 = v0 + a*delta;
+                h1 = h0 + v0*delta;
+                v0 = v1;
+                h0 = h1;
+                System.out.println("t: " + time/1000 + " h: " + h0);
+            }
         }
-        return acceleration;
     }
 }
