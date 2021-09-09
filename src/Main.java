@@ -2,25 +2,37 @@ public class Main {
 
     public static void main(String[] args) {
 
-        double time = 0;
+        double deltaT = 0.1;
         double a = -9.82;
         double v0 = 0;
-        double h0 = 10;
-        double h1 = 0;
-        double v1 = 0;
+        double h = 10;
+        double t = 0;
 
-        double delta = 1000/60;
-        long last = System.currentTimeMillis();
-        while (true) {
-            long now = System.currentTimeMillis();
-            if (now - last > delta) {
-                time++;
-                v1 = v0 + a*delta;
-                h1 = h0 + v0*delta;
-                v0 = v1;
-                h0 = h1;
-                System.out.println("t: " + time/1000 + " h: " + h0);
-            }
+        for (int i = 0 ; i < 100 ; i++) {
+            printPos(t, h);
+            t += deltaT;
+            v0 = updateVelocity(v0, a, deltaT);
+            h = updatePosition(h, v0, deltaT);
+            checkCollision(h, v0);
         }
+    }
+
+    private static void checkCollision(double h, double v0) {
+        if (h < 0) {
+            v0 = v0*-1;
+        }
+    }
+
+    private static double updatePosition(double h, double v0, double deltaT) {
+
+        return h + deltaT*v0;
+    }
+
+    private static double updateVelocity(double v0,double a, double deltaT) {
+        return v0 + a*deltaT;
+    }
+
+    private static void printPos(double t, double h) {
+        System.out.println(t + " ; " + h);
     }
 }
